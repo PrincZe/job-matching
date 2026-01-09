@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { spawn } from 'child_process';
-import path from 'path';
+import { runMatching } from '@/lib/matching';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Prepare input for Python script
+    // Prepare input for matching algorithm
     const input = {
       officers: body.officers,
       positions: body.positions,
@@ -24,55 +23,16 @@ export async function POST(request: NextRequest) {
       org_preferences: body.org_preferences || {}
     };
 
-    // Run Python matching algorithm
-    const result = await runPythonScript(input);
+    // Run matching algorithm (TypeScript implementation)
+    const result = runMatching(input);
     
     return NextResponse.json(result);
     
   } catch (error) {
     console.error('API error:', error);
     return NextResponse.json(
-      { success: false, error: 'Internal server error' },
+      { success: false, error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     );
   }
-}
-
-function runPythonScript(input: any): Promise<any> {
-  return new Promise((resolve, reject) => {
-    // Determine Python command (python3 on Unix, python on Windows)
-    const pythonPath = process.platform === 'win32' ? 'python' : 'python3';
-    const scriptPath = path.join(process.cwd(), 'lib', 'matching.py');
-    
-    const python = spawn(pythonPath, [scriptPath]);
-    
-    let output = '';
-    let errorOutput = '';
-    
-    python.stdout.on('data', (data) => {
-      output += data.toString();
-    });
-    
-    python.stderr.on('data', (data) => {
-      errorOutput += data.toString();
-    });
-    
-    python.on('close', (code) => {
-      if (code !== 0) {
-        reject(new Error(`Python script failed: ${errorOutput}`));
-        return;
-      }
-      
-      try {
-        const result = JSON.parse(output);
-        resolve(result);
-      } catch (error) {
-        reject(new Error(`Failed to parse Python output: ${output}`));
-      }
-    });
-    
-    // Send input to Python script
-    python.stdin.write(JSON.stringify(input));
-    python.stdin.end();
-  });
 }
