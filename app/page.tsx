@@ -21,10 +21,23 @@ export default function Home() {
     try {
       // Extract unique officers and positions
       const officers = officerPrefs.map(p => p.officerName);
-      const positions = Array.from(new Set([
-        ...positionPrefs.map(p => p.positionName),
-        ...officerPrefs.map(p => p.currentPosition)
-      ]));
+      const positions = positionPrefs.map(p => p.positionName);
+
+      // Validate that all current positions exist in the position list
+      const positionSet = new Set(positions);
+      const missingPositions: string[] = [];
+
+      officerPrefs.forEach(officer => {
+        if (!positionSet.has(officer.currentPosition)) {
+          missingPositions.push(`${officer.officerName}'s current position "${officer.currentPosition}"`);
+        }
+      });
+
+      if (missingPositions.length > 0) {
+        setError(`The following current positions are not in the position list:\n${missingPositions.join('\n')}\n\nPlease ensure all current positions are included in the position_preferences.xlsx file.`);
+        setLoading(false);
+        return;
+      }
 
       // Build preference dictionaries
       const officerPreferences: { [key: string]: string[] } = {};
