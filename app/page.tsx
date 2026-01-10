@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import FileUpload from '@/components/FileUpload';
+import UserGuide from '@/components/UserGuide';
 import { OfficerPreference, PositionPreference, OrgPreference, MatchingResult } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 
@@ -131,6 +132,8 @@ export default function Home() {
             <p className="text-blue-800 font-medium">Running matching algorithm...</p>
           </div>
         )}
+
+        <UserGuide />
 
         <FileUpload onFilesUploaded={handleFilesUploaded} />
       </div>
