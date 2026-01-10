@@ -19,7 +19,7 @@ export default function FileUpload({ onFilesUploaded }: FileUploadProps) {
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleFileChange = (type: 'officer' | 'position' | 'org', file: File | null) => {
+  const handleFileChange = (type: 'officer' | 'position' | 'org', file: File | null, event?: React.ChangeEvent<HTMLInputElement>) => {
     setErrors([]);
     
     switch (type) {
@@ -32,6 +32,11 @@ export default function FileUpload({ onFilesUploaded }: FileUploadProps) {
       case 'org':
         setOrgFile(file);
         break;
+    }
+
+    // Reset the input value to allow re-uploading the same file
+    if (event && event.target) {
+      event.target.value = '';
     }
   };
 
@@ -93,7 +98,7 @@ export default function FileUpload({ onFilesUploaded }: FileUploadProps) {
               <input
                 type="file"
                 accept=".xlsx,.xls"
-                onChange={(e) => handleFileChange('officer', e.target.files?.[0] || null)}
+                onChange={(e) => handleFileChange('officer', e.target.files?.[0] || null, e)}
                 className="hidden"
                 id="officer-file"
               />
@@ -137,7 +142,7 @@ export default function FileUpload({ onFilesUploaded }: FileUploadProps) {
               <input
                 type="file"
                 accept=".xlsx,.xls"
-                onChange={(e) => handleFileChange('position', e.target.files?.[0] || null)}
+                onChange={(e) => handleFileChange('position', e.target.files?.[0] || null, e)}
                 className="hidden"
                 id="position-file"
               />
@@ -181,7 +186,7 @@ export default function FileUpload({ onFilesUploaded }: FileUploadProps) {
               <input
                 type="file"
                 accept=".xlsx,.xls"
-                onChange={(e) => handleFileChange('org', e.target.files?.[0] || null)}
+                onChange={(e) => handleFileChange('org', e.target.files?.[0] || null, e)}
                 className="hidden"
                 id="org-file"
               />
