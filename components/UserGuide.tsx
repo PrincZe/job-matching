@@ -11,9 +11,20 @@ export default function UserGuide() {
           </svg>
           <h3 className="font-bold">How It Works</h3>
         </div>
-        <p className="text-sm text-blue-50 leading-relaxed">
+        <p className="text-sm text-blue-50 leading-relaxed mb-3">
           Uses <strong>Hungarian Algorithm</strong> to find optimal matches based on preferences, priorities, and rotation rules.
         </p>
+        <a
+          href="/learn-more"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-xs bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors"
+        >
+          <span>Learn More</span>
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
       </div>
 
       {/* Required Files Card */}
@@ -79,7 +90,7 @@ export default function UserGuide() {
           <span>💡</span>
           Example
         </h3>
-        <div className="text-xs text-purple-900 space-y-1">
+        <div className="text-xs text-purple-900 space-y-1 mb-3">
           <p className="font-semibold">John → Manager (Finance)</p>
           <div className="pl-3 space-y-0.5 text-purple-700">
             <p>• John&apos;s 1st choice: +3</p>
@@ -88,6 +99,17 @@ export default function UserGuide() {
             <p className="font-bold text-purple-900 pt-1">= 7 points total</p>
           </div>
         </div>
+        <a
+          href="/learn-more#example-basic"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-900 px-3 py-1.5 rounded-lg transition-colors"
+        >
+          <span>See Full Examples</span>
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
       </div>
 
       {/* Important Notes Card */}
